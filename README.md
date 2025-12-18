@@ -2,7 +2,7 @@
 
 ## 📌 Description du projet
 
-Ce projet consiste en la réalisation d’un **jeu vidéo de bataille navale (Sea Battle)** développé en **Scala**, dans le cadre d’un **travail pratique (TP) de programmation**. L’application s’appuie sur la librairie **FunGraphics** afin de gérer l’interface graphique ainsi que les interactions avec l’utilisateur.
+Ce projet consiste en la réalisation d’un **jeu vidéo de bataille navale (Sea Battle)** développé en **Scala**, dans le cadre d’un **d'un projet equipe**. L’application s’appuie sur la librairie **FunGraphics** afin de gérer l’interface graphique ainsi que les interactions avec l’utilisateur.
 
 Le jeu met en scène une confrontation stratégique entre **deux joueurs**, dont l’objectif est de **couler l’ensemble des navires adverses** avant que les siens ne soient détruits.
 
