@@ -1,33 +1,33 @@
 import hevs.graphics.FunGraphics
 
+import java.awt.Color
+import javax.swing.SwingConstants
+
 class Grid() {
-  val fg: FunGraphics = new FunGraphics(1200, 1200)
+  val caseSize = 20
+  val fg: FunGraphics = new FunGraphics(12 * caseSize, 12 * caseSize)
 
   def draw(grid: Array[Array[Int]]): Unit = {
-    // Horizontal
-    fg.drawLine(100, 100, 1100, 100)
-    fg.drawLine(100, 200, 1100, 200)
-    fg.drawLine(100, 300, 1100, 300)
-    fg.drawLine(100, 400, 1100, 400)
-    fg.drawLine(100, 500, 1100, 500)
-    fg.drawLine(100, 600, 1100, 600)
-    fg.drawLine(100, 700, 1100, 700)
-    fg.drawLine(100, 800, 1100, 800)
-    fg.drawLine(100, 900, 1100, 900)
-    fg.drawLine(100, 1000, 1100, 1000)
-    fg.drawLine(100, 1100, 1100, 1100)
-
-    // Vertical
-    fg.drawLine(100, 100, 100, 1100)
-    fg.drawLine(200, 100, 200, 1100)
-    fg.drawLine(300, 100, 300, 1100)
-    fg.drawLine(400, 100, 400, 1100)
-    fg.drawLine(500, 100, 500, 1100)
-    fg.drawLine(600, 100, 600, 1100)
-    fg.drawLine(700, 100, 700, 1100)
-    fg.drawLine(800, 100, 800, 1100)
-    fg.drawLine(900, 100, 900, 1100)
-    fg.drawLine(1000, 100, 1000, 1100)
-    fg.drawLine(1100, 100, 1100, 1100)
+    for (y <- grid.indices){
+      fg.drawString((y + 1) * caseSize + caseSize / 2, caseSize, ('A'.toInt + y).toChar.toString, halign = SwingConstants.CENTER, fontSize = caseSize / 2)
+      fg.drawString(caseSize / 2, (y + 1) * caseSize + caseSize / 2, ('A'.toInt + y).toChar.toString, valign = SwingConstants.CENTER, fontSize = caseSize / 2)
+      for (x <- grid(y).indices){
+        fg.setColor(Color.black)
+        fg.drawLine((x + 1) * caseSize, (y + 1) * caseSize, (x + 1) * caseSize, (y + 2) * caseSize)
+        fg.drawLine((x + 1) * caseSize, (y + 1) * caseSize, (x + 2) * caseSize, (y + 1) * caseSize)
+        fg.drawLine((x + 2) * caseSize, (y + 1) * caseSize, (x + 2) * caseSize, (y + 2) * caseSize)
+        fg.drawLine((x + 1) * caseSize, (y + 2) * caseSize, (x + 2) * caseSize, (y + 2) * caseSize)
+        val value = grid(y)(x)
+        value match {
+          case 1 =>
+            fg.setColor(Color.blue)
+            fg.drawFilledCircle((x + 1) * caseSize, (y + 1) * caseSize, caseSize)
+          case 2 =>
+            fg.setColor(Color.red)
+            fg.drawFilledCircle((x + 1) * caseSize, (y + 1) * caseSize, caseSize)
+          case _ =>
+        }
+      }
+    }
   }
 }
