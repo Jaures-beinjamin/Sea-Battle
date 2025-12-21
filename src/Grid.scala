@@ -13,7 +13,7 @@ class Grid(caseSize: Int = 150) {
       val x = e.getX / caseSize - 1
       val y = e.getY / caseSize - 1
       if (x >= 0 && x < 10 && y >= 0 && y < 10) {
-        onClick(x, y) // callBack from main
+        onClick(x, y) // callBack
       }
     }
   })
