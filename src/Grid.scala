@@ -4,16 +4,16 @@ import java.awt.Color
 import java.awt.event.{MouseAdapter, MouseEvent}
 import javax.swing.SwingConstants
 
-class Grid() {
-  val caseSize = 100
+class Grid(caseSize: Int = 150) {
   val fg: FunGraphics = new FunGraphics(12 * caseSize, 12 * caseSize)
+  var onClick: (Int, Int) => Unit = (x, y) => {}
 
   fg.addMouseListener(new MouseAdapter {
     override def mouseClicked(e: MouseEvent): Unit = {
       val x = e.getX / caseSize - 1
       val y = e.getY / caseSize - 1
       if (x >= 0 && x < 10 && y >= 0 && y < 10) {
-        println(s"Clicked on ($x, $y)")
+        onClick(x, y) // callBack from main
       }
     }
   })

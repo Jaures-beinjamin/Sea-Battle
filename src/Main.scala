@@ -13,7 +13,11 @@ object Main extends App {
   )
 
   val player1 = new Grid
-  val player2 = new Grid
+  player1.onClick = (x, y) => {
+    println(x, y)
+    array(y)(x) = 1
+    player1.draw(array)
+  }
 
   player1.draw(array)
 }
