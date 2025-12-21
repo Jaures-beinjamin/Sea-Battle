@@ -22,7 +22,7 @@ class Grid(caseSize: Int = 150) {
     fg.clear()
     for (y <- grid.indices){
       fg.drawString((y + 1) * caseSize + caseSize / 2, caseSize, ('A'.toInt + y).toChar.toString, halign = SwingConstants.CENTER, fontSize = caseSize / 2)
-      fg.drawString(caseSize / 2, (y + 1) * caseSize + caseSize / 2, ('A'.toInt + y).toChar.toString, valign = SwingConstants.CENTER, fontSize = caseSize / 2)
+      fg.drawString(caseSize / 2, (y + 1) * caseSize + caseSize / 2, (y + 1).toString, valign = SwingConstants.CENTER, fontSize = caseSize / 2)
       for (x <- grid(y).indices){
         val value = grid(y)(x)
         value match {
