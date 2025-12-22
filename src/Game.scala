@@ -1,5 +1,11 @@
+object CellState {
+  val Empty = 0
+  val Miss = 1
+  val Hit = 2
+  val Boat = 3
+}
 class Game (caseSize: Int = 100, maxBoat: Int = 3){
-  private val boards = Array(Array.ofDim[Int](10, 10), Array.ofDim[Int](10, 10)) // 0: empty, 1: miss, 2: hit, 3: ship
+  private val boards = Array.fill(2)(Array.fill(10, 10)(CellState.Empty)) // 0: empty, 1: miss, 2: hit, 3: ship
   private val grids = Array(
     new Grid("Player 1", caseSize, (x, y) => onPress(0, x, y), (x, y) => onRelease(0, x, y)),
     new Grid("Player 2", caseSize, (x, y) => onPress(1, x, y), (x, y) => onRelease(1, x, y))
@@ -27,11 +33,11 @@ class Game (caseSize: Int = 100, maxBoat: Int = 3){
         }
       case 2 =>
         if (boardNumber != playerTurn){
-          if (boards(boardNumber)(y)(x) == 3) boards(boardNumber)(y)(x) = 2
-          else if (boards(boardNumber)(y)(x) == 0) boards(boardNumber)(y)(x) = 1
+          if (boards(boardNumber)(y)(x) == CellState.Boat) boards(boardNumber)(y)(x) = CellState.Hit
+          else if (boards(boardNumber)(y)(x) == CellState.Empty) boards(boardNumber)(y)(x) = CellState.Miss
           else return
 
-          val isStillAlive = boards(boardNumber).exists(row => row.contains(3))
+          val isStillAlive = boards(boardNumber).exists(row => row.contains(CellState.Boat))
 
           if (!isStillAlive){
             val winner = if (boardNumber == 0) 2 else 1
@@ -49,11 +55,11 @@ class Game (caseSize: Int = 100, maxBoat: Int = 3){
       if (boardNumber == phase){
         if (startY == y){
           for (i <- math.min(x, startX) to math.max(x, startX)){
-            boards(phase)(y)(i) = 3
+            boards(phase)(y)(i) = CellState.Boat
           }
         } else if (startX == x){
           for (i <- math.min(y, startY) to math.max(y, startY)){
-            boards(phase)(i)(x) = 3
+            boards(phase)(i)(x) = CellState.Boat
           }
         } else {
           return
