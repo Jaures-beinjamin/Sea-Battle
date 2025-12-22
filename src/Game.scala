@@ -1,11 +1,11 @@
 class Game (caseSize: Int = 100){
-  private val board1 = Array.ofDim[Int](10, 10) // 0 not shooted, 1 not touched, 2 touched, 3 boat
+  private val board1 = Array.ofDim[Int](10, 10) // 0: empty, 1: miss, 2: hit, 3: ship
   private val board2 = Array.ofDim[Int](10, 10)
 
   private val grid1 = new Grid("Player 1", caseSize, (x, y) => onClick(1, x, y))
   private val grid2 = new Grid("Player 2", caseSize, (x, y) => onClick(2, x, y))
 
-  private var phase = 1 // 1 = P1 boat, 2 = P2 boat, 3 = game
+  private var phase = 1 // 1: P1 ship placement, 2: P2 ship placement, 3: battle phase
   private val maxBoat = 5
   private var boatPlaced = 0
   private var playerTurn = 1
