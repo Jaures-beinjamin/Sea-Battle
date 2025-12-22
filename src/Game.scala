@@ -31,14 +31,7 @@ class Game (caseSize: Int = 100, maxBoat: Int = 3){
           else if (boards(boardNumber)(y)(x) == 0) boards(boardNumber)(y)(x) = 1
           else return
 
-          var isStillAlive = false
-          for (row <- boards(boardNumber)){
-            for (cell <- row){
-              if (cell == 3){
-                isStillAlive = true
-              }
-            }
-          }
+          val isStillAlive = boards(boardNumber).exists(row => row.contains(3))
 
           if (!isStillAlive){
             println(s"Player $boardNumber win")
