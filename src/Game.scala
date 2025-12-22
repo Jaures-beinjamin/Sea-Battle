@@ -77,6 +77,7 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
 
           if (numPlayerAlive == 1) {
             phase = GameOver
+            grids(lastPlayerAlive).winner()
             println(s"Player ${lastPlayerAlive + 1} is the winner!!!")
             println(s"Click on a grid to play again")
           } else {
