@@ -34,7 +34,8 @@ class Game (caseSize: Int = 100, maxBoat: Int = 3){
           val isStillAlive = boards(boardNumber).exists(row => row.contains(3))
 
           if (!isStillAlive){
-            println(s"Player $boardNumber win")
+            val winner = if (boardNumber == 0) 2 else 1
+            println(s"Player $winner wins!")
           }
 
           grids(boardNumber).draw(boards(boardNumber))
