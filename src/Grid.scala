@@ -5,7 +5,7 @@ import java.awt.event.{MouseAdapter, MouseEvent}
 import javax.swing.SwingConstants
 
 class Grid(title: String, caseSize: Int = 150, onClick: (Int, Int) => Unit) {
-  val fg: FunGraphics = new FunGraphics(12 * caseSize, 12 * caseSize)
+  private val fg: FunGraphics = new FunGraphics(12 * caseSize, 12 * caseSize)
 
   fg.addMouseListener(new MouseAdapter {
     override def mouseClicked(e: MouseEvent): Unit = {
