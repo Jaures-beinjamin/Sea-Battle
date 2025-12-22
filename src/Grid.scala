@@ -53,4 +53,10 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
       }
     }
   }
+
+  def eliminated(): Unit = {
+    fg.setColor(Color.red)
+    fg.drawFillRect(0, 0, 12 * caseSize, 12 * caseSize)
+    fg.drawString(caseSize * 6, caseSize / 2, title, halign = SwingConstants.CENTER, fontSize = caseSize / 2, color = Color.white)
+  }
 }

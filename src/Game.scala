@@ -54,13 +54,14 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
             println("Miss")
           }
           else {
-            println("Already shoted, play again")
+            println("Already shot here, try again")
             return
           }
 
           val isStillAlive = boards(boardNumber).exists(row => row.contains(Ship))
           if (!isStillAlive) {
             phase = GameOver
+            grids(boardNumber).eliminated()
             println(s"Player ${boardNumber + 1} is eliminated!")
             println(s"Click on a grid to play again")
           } else {
