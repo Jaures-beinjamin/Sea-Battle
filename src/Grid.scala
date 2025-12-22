@@ -26,7 +26,7 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
 
   def draw(grid: Array[Array[Int]], showBoat: Boolean = false): Unit = {
     fg.clear()
-    fg.drawString(caseSize * 6, caseSize / 2, title, halign = SwingConstants.CENTER)
+    fg.drawString(caseSize * 6, caseSize / 2, title, halign = SwingConstants.CENTER, fontSize = caseSize / 2)
     for (y <- grid.indices){
       fg.drawString((y + 1) * caseSize + caseSize / 2, caseSize, ('A'.toInt + y).toChar.toString, halign = SwingConstants.CENTER, fontSize = caseSize / 2)
       fg.drawString(caseSize / 2, (y + 1) * caseSize + caseSize / 2, (y + 1).toString, valign = SwingConstants.CENTER, fontSize = caseSize / 2)
