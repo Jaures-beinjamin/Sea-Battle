@@ -13,6 +13,7 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
   private val boards: Array[Array[Array[CellState]]] = Array.fill(numPlayers)(Array.fill(10, 10)(Empty))
   private val grids = new Array[Grid](numPlayers)
   for (i <- 0 until numPlayers) {
+    println(s"Grid for Player ${i + 1} created")
     grids(i) = new Grid(s"Player ${i + 1}", caseSize, (x, y) => onPress(i, x, y), (x, y) => onRelease(i, x, y))
   }
 
@@ -25,12 +26,14 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
   private var startY = 0
 
   def start(): Unit = {
+    println("Game started")
     for (i <- 0 until numPlayers) {
       boards(i) = Array.fill(10, 10)(Empty)
       grids(i).draw(boards(i))
     }
     phase = ShipPlacement
     playerTurn = 0
+    println(s"Player ${playerTurn + 1} place ships")
   }
 
   def onPress(boardNumber: Int, x: Int, y: Int): Unit = {
@@ -41,20 +44,32 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
           startY = y
         }
       case Battle =>
-        if (boardNumber == playerTurn) {
-          if (boards(boardNumber)(y)(x) == Ship) boards(boardNumber)(y)(x) = Hit
-          else if (boards(boardNumber)(y)(x) == Empty) boards(boardNumber)(y)(x) = Miss
-          else return
-
-          val isStillAlive = boards(boardNumber).exists(row => row.contains(Ship))
-
-          if (!isStillAlive) {
-            println(s"Player ${boardNumber + 1} is eliminated!")
-            phase = GameOver
+        if (boardNumber != playerTurn) {
+          println(s"Shot on Player ${boardNumber + 1} $x, $y")
+          if (boards(boardNumber)(y)(x) == Ship) {
+            boards(boardNumber)(y)(x) = Hit
+            println("Hit")
+          } else if (boards(boardNumber)(y)(x) == Empty) {
+            boards(boardNumber)(y)(x) = Miss
+            println("Miss")
+          }
+          else {
+            println("Already shoted, play again")
+            return
           }
 
-          grids(boardNumber).draw(boards(boardNumber))
-          playerTurn = (playerTurn + 1) % numPlayers
+          val isStillAlive = boards(boardNumber).exists(row => row.contains(Ship))
+          if (!isStillAlive) {
+            phase = GameOver
+            println(s"Player ${boardNumber + 1} is eliminated!")
+            println(s"Click on a grid to play again")
+          } else {
+            grids(boardNumber).draw(boards(boardNumber))
+            playerTurn = (playerTurn + 1) % numPlayers
+            println(s"Player ${playerTurn + 1} can shoot")
+          }
+        } else {
+          println("You can't shoot your own grid!")
         }
       case GameOver =>
         start()
@@ -80,8 +95,14 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
       if (shipPlaced == maxShip) {
         grids(boardNumber).draw(boards(boardNumber))
         shipPlaced = 0
-        phase = if (playerTurn == numPlayers - 1) Battle else ShipPlacement
-        playerTurn = if (playerTurn == numPlayers - 1) 0 else playerTurn + 1
+        if (playerTurn == numPlayers - 1) phase = Battle
+        if (playerTurn == numPlayers - 1) {
+          playerTurn = 0
+          println(s"Player ${playerTurn + 1} can shoot")
+        } else {
+          playerTurn += 1
+          println(s"Player ${playerTurn + 1} place ships")
+        }
       }
     }
   }
