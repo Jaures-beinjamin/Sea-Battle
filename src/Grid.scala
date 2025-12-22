@@ -17,7 +17,7 @@ class Grid(title: String, caseSize: Int = 150, onClick: (Int, Int) => Unit) {
     }
   })
 
-  def draw(grid: Array[Array[Int]]): Unit = {
+  def draw(grid: Array[Array[Int]], showBoat: Boolean = false): Unit = {
     fg.clear()
     fg.drawString(caseSize * 6, caseSize / 2, title, halign = SwingConstants.CENTER)
     for (y <- grid.indices){
@@ -31,7 +31,8 @@ class Grid(title: String, caseSize: Int = 150, onClick: (Int, Int) => Unit) {
           case 2 =>
             fg.setColor(Color.red)
           case 3 =>
-            fg.setColor(Color.green)
+            if (showBoat) fg.setColor(Color.green)
+            else fg.setColor(Color.white)
           case _ =>
             fg.setColor(Color.white)
         }

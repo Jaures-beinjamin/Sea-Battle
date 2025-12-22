@@ -5,6 +5,9 @@ class Game (caseSize: Int = 100){
   private val grid1 = new Grid("Player 1", caseSize, (x, y) => onClick(1, x, y))
   private val grid2 = new Grid("Player 2", caseSize, (x, y) => onClick(2, x, y))
 
+  private var phase = 1 // 1 = P1 boat, 2 = P2 boat, 3 = game
+  private val maxBoat = 5
+  private var boatPlaced = 0
   private var playerTurn = 1
 
   def start(): Unit = {
@@ -13,26 +16,47 @@ class Game (caseSize: Int = 100){
   }
 
   def onClick(numPlayer: Int, x: Int, y: Int): Unit = {
-    if (numPlayer != playerTurn) {
-      println("Not your turn !")
-      return
-    }
-
-    numPlayer match {
+    phase match {
       case 1 =>
-        if (board1(y)(x) == 3)
-          board1(y)(x) = 2
-        else
-          board1(y)(x) = 1
-        grid1.draw(board1)
-        playerTurn = 2
+        if (numPlayer == 1){
+          board1(y)(x) = 3
+          boatPlaced += 1
+          grid1.draw(board1, true)
+          if (boatPlaced == maxBoat){
+            phase = 2
+            boatPlaced = 0
+            grid1.draw(board1)
+          }
+        }
       case 2 =>
-        if (board2(y)(x) == 3)
-          board2(y)(x) = 2
-        else
-          board2(y)(x) = 1
-        grid2.draw(board2)
-        playerTurn = 1
+        if (numPlayer == 2){
+          board2(y)(x) = 3
+          boatPlaced += 1
+          grid2.draw(board2, true)
+          if (boatPlaced == maxBoat){
+            phase = 3
+            boatPlaced = 0
+            grid2.draw(board2)
+          }
+        }
+      case 3 =>
+        if (numPlayer != playerTurn) return
+        numPlayer match {
+          case 1 =>
+            if (board1(y)(x) == 3)
+              board1(y)(x) = 2
+            else
+              board1(y)(x) = 1
+            grid1.draw(board1)
+            playerTurn = 2
+          case 2 =>
+            if (board2(y)(x) == 3)
+              board2(y)(x) = 2
+            else
+              board2(y)(x) = 1
+            grid2.draw(board2)
+            playerTurn = 1
+        }
+      }
     }
-  }
 }
