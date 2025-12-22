@@ -4,12 +4,11 @@ case object Miss extends CellState
 case object Hit extends CellState
 case object Ship extends CellState
 
-object GamePhase {
-  val ShipP1 = 0
-  val ShipP2 = 1
-  val Battle = 2
-  val GameOver = 3
-}
+sealed trait GamePhase
+case object ShipP1 extends GamePhase
+case object ShipP2 extends GamePhase
+case object Battle extends GamePhase
+case object GameOver extends GamePhase
 
 class Game(caseSize: Int = 100, maxShip: Int = 3) {
   private val boards: Array[Array[Array[CellState]]] = Array.fill(2)(Array.fill(10, 10)(Empty))
@@ -18,8 +17,8 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
     new Grid("Player 2", caseSize, (x, y) => onPress(1, x, y), (x, y) => onRelease(1, x, y))
   )
 
-  private var phase = GamePhase.ShipP1
-  private var playerTurn = 0
+  private var phase: GamePhase = _
+  private var playerTurn: Int = _
 
   // Ships placement variable
   private var shipPlaced = 0
@@ -29,7 +28,7 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
   def start(): Unit = {
     boards(0) = Array.fill(10, 10)(Empty)
     boards(1) = Array.fill(10, 10)(Empty)
-    phase = GamePhase.ShipP1
+    phase = ShipP1
     playerTurn = 0
     shipPlaced = 0
     grids(0).draw(boards(0))
@@ -38,12 +37,12 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
 
   def onPress(boardNumber: Int, x: Int, y: Int): Unit = {
     phase match {
-      case GamePhase.ShipP1 | GamePhase.ShipP2 =>
-        if (boardNumber == phase) {
+      case ShipP1 | ShipP2 =>
+        if (boardNumber == playerTurn) {
           startX = x
           startY = y
         }
-      case GamePhase.Battle =>
+      case Battle =>
         if (boardNumber != playerTurn) {
           if (boards(boardNumber)(y)(x) == Ship) boards(boardNumber)(y)(x) = Hit
           else if (boards(boardNumber)(y)(x) == Empty) boards(boardNumber)(y)(x) = Miss
@@ -54,38 +53,39 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
           if (!isStillAlive) {
             val winner = if (boardNumber == 0) 2 else 1
             println(s"Player $winner wins!")
-            phase = GamePhase.GameOver
+            phase = GameOver
           }
 
           grids(boardNumber).draw(boards(boardNumber))
           playerTurn = boardNumber
         }
-      case GamePhase.GameOver =>
+      case GameOver =>
         start()
       case _ =>
     }
   }
 
   def onRelease(boardNumber: Int, x: Int, y: Int): Unit = {
-    if (phase == GamePhase.ShipP1 || phase == GamePhase.ShipP2) {
-      if (boardNumber == phase) {
+    if (phase == ShipP1 || phase == ShipP2) {
+      if (boardNumber == playerTurn) {
         if (startY == y) {
           for (i <- math.min(x, startX) to math.max(x, startX)) {
-            boards(phase)(y)(i) = Ship
+            boards(boardNumber)(y)(i) = Ship
           }
         } else if (startX == x) {
           for (i <- math.min(y, startY) to math.max(y, startY)) {
-            boards(phase)(i)(x) = Ship
+            boards(boardNumber)(i)(x) = Ship
           }
         } else {
           return
         }
         shipPlaced += 1
-        grids(phase).draw(boards(phase), showShip = true)
+        grids(boardNumber).draw(boards(boardNumber), showShip = true)
         if (shipPlaced == maxShip) {
-          grids(phase).draw(boards(phase))
+          grids(boardNumber).draw(boards(boardNumber))
           shipPlaced = 0
-          phase = if (phase == GamePhase.ShipP1) GamePhase.ShipP2 else GamePhase.Battle
+          phase = if (phase == ShipP1) ShipP2 else Battle
+          playerTurn = if (playerTurn == 0) 1 else 0
         }
       }
     }
