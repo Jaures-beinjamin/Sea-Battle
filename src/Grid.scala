@@ -33,11 +33,11 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
       for (x <- grid(y).indices){
         val value = grid(y)(x)
         value match {
-          case 1 =>
+          case CellState.Miss =>
             fg.setColor(Color.blue)
-          case 2 =>
+          case CellState.Hit =>
             fg.setColor(Color.red)
-          case 3 =>
+          case CellState.Boat =>
             if (showBoat) fg.setColor(Color.green)
             else fg.setColor(Color.white)
           case _ =>
