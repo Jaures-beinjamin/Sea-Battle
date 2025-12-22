@@ -31,7 +31,6 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
     }
     phase = ShipPlacement
     playerTurn = 0
-    shipPlaced = 0
   }
 
   def onPress(boardNumber: Int, x: Int, y: Int): Unit = {
