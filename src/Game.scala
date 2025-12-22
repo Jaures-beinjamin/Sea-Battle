@@ -21,7 +21,7 @@ class Game (caseSize: Int = 100){
         if (boardNumber == 1){
           board1(y)(x) = 3
           boatPlaced += 1
-          grid1.draw(board1, true)
+          grid1.draw(board1, showBoat = true)
           if (boatPlaced == maxBoat){
             phase = 2
             boatPlaced = 0
@@ -32,7 +32,7 @@ class Game (caseSize: Int = 100){
         if (boardNumber == 2){
           board2(y)(x) = 3
           boatPlaced += 1
-          grid2.draw(board2, true)
+          grid2.draw(board2, showBoat = true)
           if (boatPlaced == maxBoat){
             phase = 3
             boatPlaced = 0
