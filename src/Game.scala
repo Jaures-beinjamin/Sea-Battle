@@ -4,6 +4,11 @@ object CellState {
   val Hit = 2
   val Ship = 3
 }
+object GamePhase {
+  val ShipP1 = 0
+  val ShipP2 = 1
+  val battle = 2
+}
 class Game (caseSize: Int = 100, maxShip: Int = 3){
   private val boards = Array.fill(2)(Array.fill(10, 10)(CellState.Empty))
   private val grids = Array(
@@ -11,7 +16,7 @@ class Game (caseSize: Int = 100, maxShip: Int = 3){
     new Grid("Player 2", caseSize, (x, y) => onPress(1, x, y), (x, y) => onRelease(1, x, y))
   )
 
-  private var phase = 0 // 0: P1 ship placement, 1: P2 ship placement, 2: battle phase
+  private var phase = GamePhase.ShipP1
   private var playerTurn = 0
 
   // Ships placement variable
@@ -26,12 +31,12 @@ class Game (caseSize: Int = 100, maxShip: Int = 3){
 
   def onPress(boardNumber: Int, x: Int, y: Int): Unit = {
     phase match {
-      case 0 | 1 =>
+      case GamePhase.ShipP1 | GamePhase.ShipP2 =>
         if (boardNumber == phase){
           startX = x
           startY = y
         }
-      case 2 =>
+      case GamePhase.battle =>
         if (boardNumber != playerTurn){
           if (boards(boardNumber)(y)(x) == CellState.Ship) boards(boardNumber)(y)(x) = CellState.Hit
           else if (boards(boardNumber)(y)(x) == CellState.Empty) boards(boardNumber)(y)(x) = CellState.Miss
@@ -51,7 +56,7 @@ class Game (caseSize: Int = 100, maxShip: Int = 3){
     }
 
   def onRelease(boardNumber: Int, x: Int, y: Int): Unit = {
-    if (phase == 0 || phase == 1){
+    if (phase == GamePhase.ShipP1 || phase == GamePhase.ShipP2){
       if (boardNumber == phase){
         if (startY == y){
           for (i <- math.min(x, startX) to math.max(x, startX)){
@@ -69,7 +74,7 @@ class Game (caseSize: Int = 100, maxShip: Int = 3){
         if (shipPlaced == maxShip){
           grids(phase).draw(boards(phase))
           shipPlaced = 0
-          phase += 1
+          phase = if (phase == GamePhase.ShipP1) GamePhase.ShipP2 else GamePhase.battle
         }
       }
     }
