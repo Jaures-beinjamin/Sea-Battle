@@ -26,17 +26,13 @@ class Game (caseSize: Int = 100, maxBoat: Int = 3){
           startY = y
         }
       case 2 =>
-        if (boardNumber == playerTurn) return
-        if (boardNumber == 0){
-          if (boards(0)(y)(x) == 3) boards(0)(y)(x) = 2
-          else boards(0)(y)(x) = 1
-          grids(0).draw(boards(0))
-        } else if (boardNumber == 1){
-          if (boards(1)(y)(x) == 3) boards(1)(y)(x) = 2
-          else boards(1)(y)(x) = 1
-          grids(1).draw(boards(1))
+        if (boardNumber != playerTurn){
+          if (boards(boardNumber)(y)(x) == 3) boards(boardNumber)(y)(x) = 2
+          else if (boards(boardNumber)(y)(x) == 0) boards(boardNumber)(y)(x) = 1
+          else return
+          grids(boardNumber).draw(boards(boardNumber))
+          playerTurn = boardNumber
         }
-        playerTurn = boardNumber
       }
     }
 
