@@ -15,10 +15,10 @@ class Game (caseSize: Int = 100){
     grid2.draw(board2)
   }
 
-  def onClick(numPlayer: Int, x: Int, y: Int): Unit = {
+  def onClick(boardNumber: Int, x: Int, y: Int): Unit = {
     phase match {
       case 1 =>
-        if (numPlayer == 1){
+        if (boardNumber == 1){
           board1(y)(x) = 3
           boatPlaced += 1
           grid1.draw(board1, true)
@@ -29,7 +29,7 @@ class Game (caseSize: Int = 100){
           }
         }
       case 2 =>
-        if (numPlayer == 2){
+        if (boardNumber == 2){
           board2(y)(x) = 3
           boatPlaced += 1
           grid2.draw(board2, true)
@@ -40,23 +40,17 @@ class Game (caseSize: Int = 100){
           }
         }
       case 3 =>
-        if (numPlayer != playerTurn) return
-        numPlayer match {
-          case 1 =>
-            if (board1(y)(x) == 3)
-              board1(y)(x) = 2
-            else
-              board1(y)(x) = 1
-            grid1.draw(board1)
-            playerTurn = 2
-          case 2 =>
-            if (board2(y)(x) == 3)
-              board2(y)(x) = 2
-            else
-              board2(y)(x) = 1
-            grid2.draw(board2)
-            playerTurn = 1
+        if (boardNumber == playerTurn) return
+        if (boardNumber == 1){
+          if (board1(y)(x) == 3) board1(y)(x) = 2
+          else board1(y)(x) = 1
+          grid1.draw(board1)
+        } else if (boardNumber == 2){
+          if (board2(y)(x) == 3) board2(y)(x) = 2
+          else board2(y)(x) = 1
+          grid2.draw(board2)
         }
+        playerTurn = boardNumber
       }
     }
 }
