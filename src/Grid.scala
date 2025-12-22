@@ -4,15 +4,22 @@ import java.awt.Color
 import java.awt.event.{MouseAdapter, MouseEvent}
 import javax.swing.SwingConstants
 
-class Grid(title: String, caseSize: Int = 150, onClick: (Int, Int) => Unit) {
+class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRelease: (Int, Int) => Unit) {
   private val fg: FunGraphics = new FunGraphics(12 * caseSize, 12 * caseSize)
 
   fg.addMouseListener(new MouseAdapter {
-    override def mouseClicked(e: MouseEvent): Unit = {
+    override def mousePressed(e: MouseEvent): Unit = {
       val x = e.getX / caseSize - 1
       val y = e.getY / caseSize - 1
       if (x >= 0 && x < 10 && y >= 0 && y < 10) {
-        onClick(x, y) // callBack
+        onPress(x, y) // callBack
+      }
+    }
+    override def mouseReleased(e: MouseEvent): Unit = {
+      val x = e.getX / caseSize - 1
+      val y = e.getY / caseSize - 1
+      if (x >= 0 && x < 10 && y >= 0 && y < 10) {
+        onRelease(x, y) // callBack
       }
     }
   })
