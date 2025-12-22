@@ -1,9 +1,8 @@
-object CellState {
-  val Empty = 0
-  val Miss = 1
-  val Hit = 2
-  val Ship = 3
-}
+sealed trait CellState
+case object Empty extends CellState
+case object Miss extends CellState
+case object Hit extends CellState
+case object Ship extends CellState
 
 object GamePhase {
   val ShipP1 = 0
@@ -13,7 +12,7 @@ object GamePhase {
 }
 
 class Game(caseSize: Int = 100, maxShip: Int = 3) {
-  private val boards = Array.fill(2)(Array.fill(10, 10)(CellState.Empty))
+  private val boards: Array[Array[Array[CellState]]] = Array.fill(2)(Array.fill(10, 10)(Empty))
   private val grids = Array(
     new Grid("Player 1", caseSize, (x, y) => onPress(0, x, y), (x, y) => onRelease(0, x, y)),
     new Grid("Player 2", caseSize, (x, y) => onPress(1, x, y), (x, y) => onRelease(1, x, y))
@@ -28,8 +27,8 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
   private var startY = 0
 
   def start(): Unit = {
-    boards(0) = Array.fill(10, 10)(CellState.Empty)
-    boards(1) = Array.fill(10, 10)(CellState.Empty)
+    boards(0) = Array.fill(10, 10)(Empty)
+    boards(1) = Array.fill(10, 10)(Empty)
     phase = GamePhase.ShipP1
     playerTurn = 0
     shipPlaced = 0
@@ -46,11 +45,11 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
         }
       case GamePhase.Battle =>
         if (boardNumber != playerTurn) {
-          if (boards(boardNumber)(y)(x) == CellState.Ship) boards(boardNumber)(y)(x) = CellState.Hit
-          else if (boards(boardNumber)(y)(x) == CellState.Empty) boards(boardNumber)(y)(x) = CellState.Miss
+          if (boards(boardNumber)(y)(x) == Ship) boards(boardNumber)(y)(x) = Hit
+          else if (boards(boardNumber)(y)(x) == Empty) boards(boardNumber)(y)(x) = Miss
           else return
 
-          val isStillAlive = boards(boardNumber).exists(row => row.contains(CellState.Ship))
+          val isStillAlive = boards(boardNumber).exists(row => row.contains(Ship))
 
           if (!isStillAlive) {
             val winner = if (boardNumber == 0) 2 else 1
@@ -72,11 +71,11 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
       if (boardNumber == phase) {
         if (startY == y) {
           for (i <- math.min(x, startX) to math.max(x, startX)) {
-            boards(phase)(y)(i) = CellState.Ship
+            boards(phase)(y)(i) = Ship
           }
         } else if (startX == x) {
           for (i <- math.min(y, startY) to math.max(y, startY)) {
-            boards(phase)(i)(x) = CellState.Ship
+            boards(phase)(i)(x) = Ship
           }
         } else {
           return

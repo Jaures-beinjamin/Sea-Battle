@@ -25,7 +25,7 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
     }
   })
 
-  def draw(grid: Array[Array[Int]], showShip: Boolean = false): Unit = {
+  def draw(grid: Array[Array[CellState]], showShip: Boolean = false): Unit = {
     fg.clear()
     fg.drawString(caseSize * 6, caseSize / 2, title, halign = SwingConstants.CENTER, fontSize = caseSize / 2)
     for (y <- grid.indices) {
@@ -34,11 +34,11 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
       for (x <- grid(y).indices) {
         val value = grid(y)(x)
         value match {
-          case CellState.Miss =>
+          case Miss =>
             fg.setColor(Color.blue)
-          case CellState.Hit =>
+          case Hit =>
             fg.setColor(Color.red)
-          case CellState.Ship =>
+          case Ship =>
             if (showShip) fg.setColor(Color.green)
             else fg.setColor(Color.white)
           case _ =>
