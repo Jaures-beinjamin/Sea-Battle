@@ -28,6 +28,11 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
   private var startY = 0
 
   def start(): Unit = {
+    boards(0) = Array.fill(10, 10)(CellState.Empty)
+    boards(1) = Array.fill(10, 10)(CellState.Empty)
+    phase = GamePhase.ShipP1
+    playerTurn = 0
+    shipPlaced = 0
     grids(0).draw(boards(0))
     grids(1).draw(boards(1))
   }
@@ -56,6 +61,8 @@ class Game(caseSize: Int = 100, maxShip: Int = 3) {
           grids(boardNumber).draw(boards(boardNumber))
           playerTurn = boardNumber
         }
+      case GamePhase.GameOver =>
+        start()
       case _ =>
     }
   }
