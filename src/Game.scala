@@ -60,13 +60,30 @@ class Game(numPlayers: Int, caseSize: Int = 100, maxShip: Int = 3) {
 
           val isStillAlive = boards(boardNumber).exists(row => row.contains(Ship))
           if (!isStillAlive) {
-            phase = GameOver
-            grids(boardNumber).eliminated()
             println(s"Player ${boardNumber + 1} is eliminated!")
-            println(s"Click on a grid to play again")
+            grids(boardNumber).eliminated()
           } else {
             grids(boardNumber).draw(boards(boardNumber))
+          }
+
+          var numPlayerAlive = 0
+          var lastPlayerAlive = -1
+          for (i <- 0 until numPlayers) {
+            if (boards(i).exists(row => row.contains(Ship))) {
+              numPlayerAlive += 1
+              lastPlayerAlive = i
+            }
+          }
+
+          if (numPlayerAlive == 1) {
+            phase = GameOver
+            println(s"Player ${lastPlayerAlive + 1} is the winner!!!")
+            println(s"Click on a grid to play again")
+          } else {
             playerTurn = (playerTurn + 1) % numPlayers
+            while (!boards(playerTurn).exists(row => row.contains(Ship))) {
+              playerTurn = (playerTurn + 1) % numPlayers
+            }
             println(s"Player ${playerTurn + 1} can shoot")
           }
         } else {
