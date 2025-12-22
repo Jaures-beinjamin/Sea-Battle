@@ -4,7 +4,7 @@ import java.awt.Color
 import java.awt.event.{MouseAdapter, MouseEvent}
 import javax.swing.SwingConstants
 
-class Grid(caseSize: Int = 150, onClick: (Int, Int) => Unit) {
+class Grid(title: String, caseSize: Int = 150, onClick: (Int, Int) => Unit) {
   val fg: FunGraphics = new FunGraphics(12 * caseSize, 12 * caseSize)
 
   fg.addMouseListener(new MouseAdapter {
@@ -19,6 +19,7 @@ class Grid(caseSize: Int = 150, onClick: (Int, Int) => Unit) {
 
   def draw(grid: Array[Array[Int]]): Unit = {
     fg.clear()
+    fg.drawString(caseSize * 6, caseSize / 2, title, halign = SwingConstants.CENTER)
     for (y <- grid.indices){
       fg.drawString((y + 1) * caseSize + caseSize / 2, caseSize, ('A'.toInt + y).toChar.toString, halign = SwingConstants.CENTER, fontSize = caseSize / 2)
       fg.drawString(caseSize / 2, (y + 1) * caseSize + caseSize / 2, (y + 1).toString, valign = SwingConstants.CENTER, fontSize = caseSize / 2)
