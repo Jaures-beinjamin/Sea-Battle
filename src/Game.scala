@@ -7,7 +7,8 @@ object CellState {
 object GamePhase {
   val ShipP1 = 0
   val ShipP2 = 1
-  val battle = 2
+  val Battle = 2
+  val GameOver = 3
 }
 class Game (caseSize: Int = 100, maxShip: Int = 3){
   private val boards = Array.fill(2)(Array.fill(10, 10)(CellState.Empty))
@@ -36,7 +37,7 @@ class Game (caseSize: Int = 100, maxShip: Int = 3){
           startX = x
           startY = y
         }
-      case GamePhase.battle =>
+      case GamePhase.Battle =>
         if (boardNumber != playerTurn){
           if (boards(boardNumber)(y)(x) == CellState.Ship) boards(boardNumber)(y)(x) = CellState.Hit
           else if (boards(boardNumber)(y)(x) == CellState.Empty) boards(boardNumber)(y)(x) = CellState.Miss
@@ -47,11 +48,13 @@ class Game (caseSize: Int = 100, maxShip: Int = 3){
           if (!isStillAlive){
             val winner = if (boardNumber == 0) 2 else 1
             println(s"Player $winner wins!")
+            phase = GamePhase.GameOver
           }
 
           grids(boardNumber).draw(boards(boardNumber))
           playerTurn = boardNumber
         }
+      case _ =>
       }
     }
 
@@ -74,7 +77,7 @@ class Game (caseSize: Int = 100, maxShip: Int = 3){
         if (shipPlaced == maxShip){
           grids(phase).draw(boards(phase))
           shipPlaced = 0
-          phase = if (phase == GamePhase.ShipP1) GamePhase.ShipP2 else GamePhase.battle
+          phase = if (phase == GamePhase.ShipP1) GamePhase.ShipP2 else GamePhase.Battle
         }
       }
     }
