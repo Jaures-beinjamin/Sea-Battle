@@ -1,6 +1,6 @@
-# 🛳️ Sea Battle – Bataille Navale en Scala
+# Sea Battle – Bataille Navale en Scala
 
-## 📌 Description du projet
+## Description du projet
 
 Ce projet consiste en la réalisation d’un **jeu vidéo de bataille navale (Sea Battle)** développé en **Scala**, dans le cadre d’un **d'un projet equipe**. L’application s’appuie sur la librairie **FunGraphics** afin de gérer l’interface graphique ainsi que les interactions avec l’utilisateur.
 
@@ -8,7 +8,7 @@ Le jeu met en scène une confrontation stratégique entre **deux joueurs**, dont
 
 ---
 
-## 🎯 Objectifs pédagogiques
+## Objectifs pédagogiques
 
 Ce Project vise à :
 
@@ -20,7 +20,7 @@ Ce Project vise à :
 
 ---
 
-## 🕹️ Principe du jeu
+## Principe du jeu
 
 * Le jeu se déroule sur une **grille maritime**
 * Chaque joueur dispose de **4 navires**, placés sur la grille
@@ -31,13 +31,13 @@ Ce Project vise à :
 
 ### État d’un tir
 
-* 🔥 **Touché**
+* **Touché**
 
 La partie prend fin lorsqu’un joueur ne possède plus aucun navire en état de flotter.
 
 ---
 
-## 🧩 Fonctionnalités principales
+## Fonctionnalités principales
 
 * Affichage graphique de la grille de jeu avec **FunGraphics**
 * Placement des navires sur la grille
@@ -48,7 +48,7 @@ La partie prend fin lorsqu’un joueur ne possède plus aucun navire en état de
 
 ---
 
-## 🛠️ Technologies utilisées
+## Technologies utilisées
 
 * **Langage** : Scala
 * **Librairie graphique** : FunGraphics
@@ -56,28 +56,9 @@ La partie prend fin lorsqu’un joueur ne possède plus aucun navire en état de
 
 ---
 
-## 📁 Structure du projet (exemple)
-
-```
-SeaBattle/
-│
-├── src/
-│   ├── main/
-│   │   ├── Game.scala        # Logique principale du jeu
-│   │   ├── Grid.scala        # Gestion de la grille
-│   │   ├── Ship.scala        # Modélisation des navires
-│   │   ├── Player.scala      # Joueur / Ordinateur
-│   │   └── Main.scala        # Point d’entrée du programme
-│
-├── resources/
-│   └── images/              # Images ou ressources graphiques
-│
-└── README.md
-```
-
 ---
 
-## ▶️ Lancement du jeu
+##  Lancement du jeu
 
 1. Vérifier que **Scala** est installé
 2. Importer le projet dans un IDE (IntelliJ recommandé)
@@ -86,7 +67,7 @@ SeaBattle/
 
 ---
 
-## 🧠 Règles du jeu
+##  Règles du jeu
 
 * Un tir par tour
 * Impossible de tirer deux fois sur la même case
@@ -95,13 +76,12 @@ SeaBattle/
 
 ---
 
-## 📷 Aperçu 
+##  Aperçu 
 
-*(Ajouter ici une capture d’écran du jeu si disponible)*
 
 ---
 
-## 🚀 Améliorations possibles
+##  Améliorations possibles
 
 * Mode deux joueurs
 * Placement manuel des navires
@@ -111,17 +91,17 @@ SeaBattle/
 
 ---
 
-## 👨‍🎓 Auteur
+##  Auteur
 
-* **Nom** : Jaures Beinjamin
+* **Nom** : Jaures Beinjamin - Samuel
 * **Cadre** : TP – Création d’un jeu vidéo en Scala
 
 ---
 
-## 📄 Licence
+##  Licence
 
 Projet réalisé dans un cadre pédagogique.
 
 ---
 
-🎮 *Bon jeu et bonne exploration de Scala !*
+*Bon jeu et bonne exploration de Scala !*
