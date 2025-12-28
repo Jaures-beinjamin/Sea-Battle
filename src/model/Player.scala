@@ -9,7 +9,7 @@ final case class Player(
 
   /** Vérifie si tous les navires sont coulés */
   def allShipsSunk: Boolean =
-    ships.forall(_.isSunk)
+    ships.forall(_.isSunk) // utilisé pour la condition de victoire
 
   /** Enregistre un tir sur l'adversaire */
   def registerShot(position: Position): Player =
