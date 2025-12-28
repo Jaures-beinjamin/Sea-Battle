@@ -7,9 +7,9 @@ final case class Player(
                          shots: Set[Position] = Set.empty
                        ) {
 
-  /** Vérifie si tous les navires sont coulés */
+  /** Vérifie si tous les navires du joueur sont coulés */
   def allShipsSunk: Boolean =
-    ships.forall(_.isSunk) // utilisé pour la condition de victoire
+    ships.forall(_.isSunk)
 
   /** Enregistre un tir sur l'adversaire */
   def registerShot(position: Position): Player =
