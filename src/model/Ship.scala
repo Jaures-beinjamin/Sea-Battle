@@ -1,23 +1,19 @@
 package model
 
-final case class Ship( positions: Set[Position],  hits: Set[Position] = Set.empty)
-{
-
-  /** Taille du navire */
+final case class Ship(
+                       positions: Set[Position],
+                       hits: Set[Position] = Set.empty
+                     ) {
   def size: Int = positions.size
+  def occupies(position: Position): Boolean = positions.contains(position)
+  def hit(position: Position): Ship = if (occupies(position)) copy(hits = hits + position) else this
+  def isSunk: Boolean = hits.size == positions.size
 
-  /** Vérifie si le navire occupe une position */
-  def occupies(position: Position): Boolean =
-    positions.contains(position)
-
-  /** Enregistre un impact sur le navire */
-  def hit(position: Position): Ship =
-    if (occupies(position))
-      copy(hits = hits + position)
-    else
-      this
-
-  /** Vérifie si le navire est coulé */
-  def isSunk: Boolean =
-    hits.size == positions.size
+  /** Méthode utilitaire pour construire un navire selon orientation */
+  def positionsFrom(startX: Int, startY: Int, orientation: Orientation): Set[Position] = {
+    orientation match {
+      case Orientation.Horizontal => (0 until size).map(i => Position(startX + i, startY)).toSet
+      case Orientation.Vertical   => (0 until size).map(i => Position(startX, startY + i)).toSet
+    }
+  }
 }
