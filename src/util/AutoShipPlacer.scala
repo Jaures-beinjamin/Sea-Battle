@@ -1,6 +1,7 @@
 package util
 
-import model.{Player, Ship, Position, Orientation, GameConfig}
+import model.{Player, Ship, Position, Orientation}
+import config.GameConfig
 import scala.util.Random
 
 object AutoShipPlacer {

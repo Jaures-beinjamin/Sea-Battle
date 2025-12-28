@@ -1,6 +1,7 @@
 package util
 
-import model.{Player, Ship, GameConfig}
+import model.Player
+import config.GameConfig
 
 object BoardValidator {
 

@@ -23,3 +23,13 @@ final case class Grid(cells: Vector[Vector[CellState]]) {
       copy(cells = updatedCells)
     }
 }
+
+object Grid {
+  /** Crée une grille vide de la taille configurée */
+  def empty: Grid = {
+    val size = GameConfig.GRID_SIZE
+    val cells = Vector.fill(size, size)(CellState.Empty)
+    Grid(cells)
+  }
+}
+

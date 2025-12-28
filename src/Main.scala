@@ -1,16 +1,21 @@
+package main
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import model.{Player, Grid}
+import util.AutoShipPlacer
+
 object Main {
   def main(args: Array[String]): Unit = {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    (1 to 5).map(println)
 
-    for (i <- 1 to 5) {
-      //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-      // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-      println(s"i = $i")
-    }
+    // Création des joueurs avec grille vide
+    val player1 = Player("Alice", Grid.empty)
+    val player2 = Player("Bob", Grid.empty)
+
+    // Placement automatique des navires
+    val shipSizes = List(4, 3, 3, 2)
+    val player1WithShips = AutoShipPlacer.placeShips(player1, shipSizes)
+    val player2WithShips = AutoShipPlacer.placeShips(player2, shipSizes)
+
+    // Lancement de la boucle principale du jeu
+    GameLoop.startGame(player1WithShips, player2WithShips)
   }
 }
-

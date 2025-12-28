@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaSbtSettings">
+    <option name="linkedExternalProjectsSettings">
+      <SbtProjectSettings>
+        <option name="converterVersion" value="2" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="C:\Users\jaure\Documents\Sea-Battle" />
+            <option value="C:\Users\jaure\Documents\Sea-Battle\project" />
+          </set>
+        </option>
+        <option name="sbtVersion" value="1.10.0" />
+      </SbtProjectSettings>
+    </option>
+  </component>
+</project>
