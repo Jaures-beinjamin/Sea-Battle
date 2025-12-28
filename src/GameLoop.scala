@@ -1,6 +1,6 @@
 package main
 
-import model.{GameState, Grid, Player, Position, ShotResult}
+import model.{GameState, Player, Position, ShotResult}
 import util.{AutoShipPlacer, FireHandler, BoardValidator}
 
 object GameLoop {
@@ -17,17 +17,14 @@ object GameLoop {
     }
 
     // Boucle principale
-    while (gameState.currentPlayer.ships.exists(!_.isSunk) &&
-      gameState.otherPlayer.ships.exists(!_.isSunk)) {
+    while (gameState.checkVictory.isEmpty) { // tant qu'aucun vainqueur
 
       println(s"Tour du joueur: ${gameState.currentPlayer.name}")
 
-      // Exemple: lire une position de tir depuis l'entrée console
+      // Lecture des coordonnées de tir
       println("Entrez les coordonnées x y: ")
       val input = scala.io.StdIn.readLine().split(" ")
-      val x = input(0).toInt
-      val y = input(1).toInt
-      val position = Position(x, y)
+      val position = Position(input(0).toInt, input(1).toInt)
 
       try {
         val (updatedAttacker, updatedDefender, result: ShotResult) =
@@ -44,12 +41,8 @@ object GameLoop {
       }
     }
 
-    // Déterminer le vainqueur
-    val winner = if (gameState.currentPlayer.ships.exists(!_.isSunk))
-      gameState.currentPlayer.name
-    else
-      gameState.otherPlayer.name
-
-    println(s"Partie terminée ! Le vainqueur est : $winner")
+    // Partie terminée
+    val winner = gameState.checkVictory.get
+    println(s"Partie terminée ! Le vainqueur est : ${winner.name}")
   }
 }
