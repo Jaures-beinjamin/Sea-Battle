@@ -17,9 +17,9 @@ object GameLoop {
     }
 
     // Boucle principale
-    while (gameState.checkVictory.isEmpty) { // tant qu'aucun vainqueur
+    while (gameState.checkVictory.isEmpty) { // tant qu'il n'y a pas de vainqueur
 
-      println(s"Tour du joueur: ${gameState.currentPlayer.name}")
+      println(s"\nTour du joueur: ${gameState.currentPlayer.name}")
 
       // Lecture des coordonnées de tir
       println("Entrez les coordonnées x y: ")
@@ -32,7 +32,7 @@ object GameLoop {
 
         println(s"Résultat du tir: $result")
 
-        // Mettre à jour le GameState
+        // Mise à jour du GameState et changement de joueur
         gameState = GameState(updatedAttacker, updatedDefender).switchPlayer
 
       } catch {
@@ -43,6 +43,9 @@ object GameLoop {
 
     // Partie terminée
     val winner = gameState.checkVictory.get
-    println(s"Partie terminée ! Le vainqueur est : ${winner.name}")
+    println("\n====================================")
+    println(s"🎉 Partie terminée ! Le gagnant est : ${winner.name} 🎉")
+    println("Merci d’avoir joué !")
+    println("====================================")
   }
 }
