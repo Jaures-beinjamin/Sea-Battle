@@ -1,21 +1,37 @@
 package main
 
-import domain.{Grid, Player}
-import util.AutoShipPlacer
+import domain.{Player, Grid}
+import service.ShipService
+import game.{GameEngine, GameConfig}
 
-object  Main {
+/**
+ * Point d'entrée du jeu de bataille navale
+ */
+object Main {
+
   def main(args: Array[String]): Unit = {
 
     // Création des joueurs avec grille vide
-    val player1 = Player("Alice", Grid.empty)
-    val player2 = Player("Bob", Grid.empty)
+    val player1 = createPlayer("Alice")
+    val player2 = createPlayer("Bob")
 
-    // Placement automatique des navires
-    val shipSizes = List(4, 3, 3, 2)
-    val player1WithShips = AutoShipPlacer.placeShips(player1, shipSizes)
-    val player2WithShips = AutoShipPlacer.placeShips(player2, shipSizes)
+    // Lancement de la partie
+    GameEngine.startGame(player1, player2)
+  }
 
-    // Lancement de la boucle principale du jeu
-    GameLoop.startGame(player1WithShips, player2WithShips)
+  /**
+   * Crée un joueur avec ses navires placés automatiquement
+   * @param name nom du joueur
+   * @return joueur prêt à jouer
+   */
+  private def createPlayer(name: String): Player = {
+    // Crée une grille vide
+    val grid = Grid.empty
+
+    // Place les navires automatiquement
+    val ships = ShipService.placeAllShipsRandomly(GameConfig.SHIP_SIZES)
+
+    // Retourne le joueur avec sa grille et ses navires
+    Player(name, grid, ships)
   }
 }
