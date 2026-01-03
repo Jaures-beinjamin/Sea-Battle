@@ -1,6 +1,7 @@
 package main
 
-import model.{GameState, Player, Position, ShotResult}
+import domain.{Player, Position}
+import model.{GameState, ShotResult}
 import util.{AutoShipPlacer, FireHandler, BoardValidator}
 
 object GameLoop {

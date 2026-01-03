@@ -1,4 +1,4 @@
-package model
+package domain
 
 sealed trait CellState {
   def isEmpty: Boolean = false

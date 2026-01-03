@@ -1,6 +1,6 @@
 package util
 
-import model.Ship
+import domain.Ship
 
 object ShipCollisionChecker {
 

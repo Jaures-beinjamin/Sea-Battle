@@ -1,7 +1,7 @@
 package util
 
-import model.{Position, Orientation}
 import config.GameConfig
+import domain.{Orientation, Position}
 
 object ShipPlacement {
 

@@ -1,7 +1,7 @@
 package util
 
-import model.{Player, Ship, Position, Orientation}
 import config.GameConfig
+import domain.{Orientation, Player, Position, Ship}
 import scala.util.Random
 
 object AutoShipPlacer {

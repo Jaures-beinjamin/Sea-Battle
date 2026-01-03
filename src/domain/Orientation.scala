@@ -1,4 +1,4 @@
-package model
+package domain
 
 sealed trait Orientation
 object Orientation {

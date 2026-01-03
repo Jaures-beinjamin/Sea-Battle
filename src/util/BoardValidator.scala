@@ -1,7 +1,7 @@
 package util
 
-import model.Player
 import config.GameConfig
+import domain.Player
 
 object BoardValidator {
 

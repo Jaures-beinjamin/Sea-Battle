@@ -1,6 +1,6 @@
 package main
 
-import model.{Player, Grid}
+import domain.{Grid, Player}
 import util.AutoShipPlacer
 
 object  Main {

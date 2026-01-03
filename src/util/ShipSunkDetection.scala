@@ -1,6 +1,6 @@
 package util
 
-import model.{Player, Ship, Position}
+import domain.{Player, Position, Ship}
 
 object ShipSunkDetection {
 

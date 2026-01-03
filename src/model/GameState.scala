@@ -1,5 +1,7 @@
 package model
 
+import domain.Player
+
 /** Représente l’état courant d’une partie */
 final case class GameState(
                             currentPlayer: Player,

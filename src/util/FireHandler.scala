@@ -1,6 +1,7 @@
 package util
 
-import model.{Player, Position, ShotResult, CellState}
+import domain.{CellState, Player, Position}
+import model.ShotResult
 
 object FireHandler {
 
