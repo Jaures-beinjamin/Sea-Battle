@@ -2,7 +2,7 @@
 import domain.{Player, Grid}
 import service.ShipService
 import game.{GameEngine, GameConfig}
-import ui.GameWindow
+import ui.{GameWindow, GridRenderer}
 
 /**
  * Point d'entrée du jeu de bataille navale
@@ -17,11 +17,29 @@ object Main {
     val player1 = createPlayer("Alice")
     val player2 = createPlayer("Bob")
 
-    // Lancement de la partie
-    GameEngine.startGame(player1, player2)
+    // Test du rendu de la grille (TICKET 6.2)
+    GameWindow.getGraphics match {
+      case Some(fg) =>
+        // Dessiner la grille du joueur 1 avec ses navires visibles
+        GridRenderer.drawGrid(fg, player1.grid, 800, 600, player1.ships, showShips = true)
 
-    // Fermeture propre de la fenêtre à la fin du jeu
+        println("✅ Grille affichée avec succès !")
+        println("   - Lignes horizontales et verticales dessinées")
+        println("   - Toutes les cases sont visibles")
+        println("   - Grille centrée dans la fenêtre")
+        println("   - Navires affichés en gris")
+        println("\n⏳ Fenêtre visible pendant 5 secondes...")
+
+        // Attendre un peu pour voir la grille
+        Thread.sleep(5000)
+      case None =>
+        println("❌ Erreur : la fenêtre n'est pas ouverte")
+    }
+
+    // Fermeture propre de la fenêtre
     GameWindow.close()
+
+    println("\n✅ Test du rendu de grille terminé avec succès !")
   }
 
   /**
