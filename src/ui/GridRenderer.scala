@@ -133,5 +133,41 @@ object GridRenderer {
   def getCenteredOffsetY(windowHeight: Int): Int = {
     (windowHeight - getGridPixelSize) / 2
   }
+
+  /**
+   * Convertit les coordonnées d'un clic souris en position de grille
+   * @param mouseX coordonnée X du clic
+   * @param mouseY coordonnée Y du clic
+   * @param windowWidth largeur de la fenêtre
+   * @param windowHeight hauteur de la fenêtre
+   * @return Option[Position] si le clic est dans la grille, None sinon
+   */
+  def mouseToGridPosition(mouseX: Int, mouseY: Int, windowWidth: Int, windowHeight: Int): Option[Position] = {
+    val offsetX = getCenteredOffsetX(windowWidth)
+    val offsetY = getCenteredOffsetY(windowHeight)
+    val gridPixelSize = getGridPixelSize
+
+    // Vérifier si le clic est dans les limites de la grille
+    if (mouseX < offsetX || mouseX >= offsetX + gridPixelSize ||
+        mouseY < offsetY || mouseY >= offsetY + gridPixelSize) {
+      None // Clic hors de la grille
+    } else {
+      // Calculer la colonne et la ligne
+      val col = (mouseX - offsetX) / CELL_SIZE
+      val row = (mouseY - offsetY) / CELL_SIZE
+
+      // Vérifier que les coordonnées sont valides (dans les limites de la grille)
+      if (col >= 0 && col < GameConfig.GRID_SIZE && row >= 0 && row < GameConfig.GRID_SIZE) {
+        Some(Position(col, row))
+      } else {
+        None
+      }
+    }
+  }
+
+  /**
+   * Obtient la taille d'une cellule en pixels
+   */
+  def getCellSize: Int = CELL_SIZE
 }
 
