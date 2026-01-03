@@ -1,5 +1,8 @@
-package model
+package domain
 
+/**
+ * État d'une case de la grille
+ */
 sealed trait CellState {
   def isEmpty: Boolean = false
   def isHit: Boolean = false
@@ -8,15 +11,19 @@ sealed trait CellState {
 
 object CellState {
 
+  /** Case vide (eau) */
   case object Empty extends CellState {
     override def isEmpty: Boolean = true
   }
 
+  /** Case touchée (navire touché) */
   case object Hit extends CellState {
     override def isHit: Boolean = true
   }
 
+  /** Case manquée (tir dans l'eau) */
   case object Miss extends CellState {
     override def isMiss: Boolean = true
   }
 }
+
