@@ -3,7 +3,7 @@ package main
 import model.{Player, Grid}
 import util.AutoShipPlacer
 
-object Main {
+object  Main {
   def main(args: Array[String]): Unit = {
 
     // Création des joueurs avec grille vide
