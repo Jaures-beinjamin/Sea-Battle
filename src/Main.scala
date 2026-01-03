@@ -3,6 +3,7 @@ package main
 import domain.{Player, Grid}
 import service.ShipService
 import game.{GameEngine, GameConfig}
+import ui.GameWindow
 
 /**
  * Point d'entrée du jeu de bataille navale
@@ -10,6 +11,8 @@ import game.{GameEngine, GameConfig}
 object Main {
 
   def main(args: Array[String]): Unit = {
+    // Ouverture de la fenêtre du jeu
+    GameWindow.open()
 
     // Création des joueurs avec grille vide
     val player1 = createPlayer("Alice")
@@ -17,6 +20,9 @@ object Main {
 
     // Lancement de la partie
     GameEngine.startGame(player1, player2)
+
+    // Fermeture propre de la fenêtre à la fin du jeu
+    GameWindow.close()
   }
 
   /**
