@@ -1,4 +1,3 @@
-package main
 
 import domain.{Player, Grid}
 import service.ShipService

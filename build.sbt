@@ -14,5 +14,5 @@ Compile / unmanagedJars += baseDirectory.value / "src" / "funGraphics-1.5.20.jar
 Compile / scalaSource := baseDirectory.value / "src"
 
 // Configuration pour créer un JAR exécutable
-Compile / mainClass := Some("main.Main")
+Compile / mainClass := Some("Main")
 
