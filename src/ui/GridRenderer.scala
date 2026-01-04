@@ -18,8 +18,9 @@ object GridRenderer {
   private val COLOR_GRID_LINE = Color.BLACK
   private val COLOR_CELL_EMPTY = new Color(100, 149, 237) // Bleu ciel (eau)
   private val COLOR_CELL_SHIP = Color.GRAY
-  private val COLOR_CELL_HIT = Color.RED
-  private val COLOR_CELL_MISS = Color.WHITE
+  private val COLOR_CELL_HIT = new Color(255, 69, 0) // Rouge orangé vif pour touché
+  private val COLOR_CELL_MISS = new Color(240, 248, 255) // Blanc cassé pour raté
+  private val COLOR_CELL_SUNK = new Color(139, 0, 0) // Rouge foncé pour coulé
 
   /**
    * Dessine une grille de jeu centrée dans la fenêtre
@@ -112,6 +113,7 @@ object GridRenderer {
         if (hasShip && showShips) COLOR_CELL_SHIP else COLOR_CELL_EMPTY
       case CellState.Hit => COLOR_CELL_HIT
       case CellState.Miss => COLOR_CELL_MISS
+      case CellState.Sunk => COLOR_CELL_SUNK
     }
   }
 
@@ -169,5 +171,51 @@ object GridRenderer {
    * Obtient la taille d'une cellule en pixels
    */
   def getCellSize: Int = CELL_SIZE
+
+  /**
+   * Rafraîchit uniquement des cases spécifiques de la grille (optimisation)
+   * Utilisé pour donner un feedback visuel immédiat après un tir
+   * @param fg instance FunGraphics
+   * @param grid grille à dessiner
+   * @param windowWidth largeur de la fenêtre
+   * @param windowHeight hauteur de la fenêtre
+   * @param positions ensemble des positions à rafraîchir
+   * @param ships ensemble des navires (pour afficher leur position)
+   * @param showShips indique si les navires doivent être visibles
+   */
+  def refreshCells(fg: FunGraphics, grid: Grid, windowWidth: Int, windowHeight: Int,
+                   positions: Set[Position], ships: Set[Ship] = Set.empty,
+                   showShips: Boolean = true): Unit = {
+    val offsetX = getCenteredOffsetX(windowWidth)
+    val offsetY = getCenteredOffsetY(windowHeight)
+
+    positions.foreach { position =>
+      if (position.x >= 0 && position.x < GameConfig.GRID_SIZE &&
+          position.y >= 0 && position.y < GameConfig.GRID_SIZE) {
+
+        val x = offsetX + position.x * CELL_SIZE
+        val y = offsetY + position.y * CELL_SIZE
+
+        grid.cellAt(position.x, position.y) match {
+          case Some(cellState) =>
+            val hasShip = ships.exists(_.occupies(position))
+            val color = getCellColor(cellState, hasShip, showShips)
+
+            // Dessine la case
+            fg.setColor(color)
+            fg.drawFillRect(x, y, CELL_SIZE, CELL_SIZE)
+
+            // Redessine les bordures pour garder les lignes nettes
+            fg.setColor(COLOR_GRID_LINE)
+            drawThickLine(fg, x, y, x + CELL_SIZE, y) // Haut
+            drawThickLine(fg, x, y, x, y + CELL_SIZE) // Gauche
+            drawThickLine(fg, x + CELL_SIZE, y, x + CELL_SIZE, y + CELL_SIZE) // Droite
+            drawThickLine(fg, x, y + CELL_SIZE, x + CELL_SIZE, y + CELL_SIZE) // Bas
+
+          case None => // Ne devrait pas arriver
+        }
+      }
+    }
+  }
 }
 

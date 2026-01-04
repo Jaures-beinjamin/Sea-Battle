@@ -76,17 +76,27 @@ object CombatService {
       if (ship == hitShip) ship.hit(position) else ship
     }
 
+    // Vérifie si le navire est coulé
+    val updatedHitShip = updatedShips.find(_.positions == hitShip.positions).get
+    val isSunk = updatedHitShip.isSunk
+
     // Met à jour la grille du défenseur
-    val updatedGrid = defender.grid.updateCell(position.x, position.y, CellState.Hit)
+    val updatedGrid = if (isSunk) {
+      // Si le navire est coulé, marque toutes ses cases comme "Sunk"
+      updatedHitShip.positions.foldLeft(defender.grid) { (grid, pos) =>
+        grid.updateCell(pos.x, pos.y, CellState.Sunk)
+      }
+    } else {
+      // Sinon, marque uniquement la case touchée comme "Hit"
+      defender.grid.updateCell(position.x, position.y, CellState.Hit)
+    }
 
     val updatedDefender = defender.copy(
       ships = updatedShips,
       grid = updatedGrid
     )
 
-    // Vérifie si le navire est coulé
-    val updatedHitShip = updatedShips.find(_.positions == hitShip.positions).get
-    val result = if (updatedHitShip.isSunk) ShotResult.Sunk else ShotResult.Hit
+    val result = if (isSunk) ShotResult.Sunk else ShotResult.Hit
 
     (attacker, updatedDefender, result)
   }
