@@ -94,13 +94,6 @@ La partie prend fin lorsqu’un joueur ne possède plus aucun navire en état de
 ##  Auteur
 
 * **Nom** : Jaures Beinjamin - Samuel
-* **Cadre** : TP – Création d’un jeu vidéo en Scala
-
----
-
-##  Licence
-
-Projet réalisé dans un cadre pédagogique.
 
 ---
 
