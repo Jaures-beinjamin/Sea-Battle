@@ -25,7 +25,7 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
     }
   })
 
-  def draw(grid: Array[Array[CellState]], showShip: Boolean = false): Unit = {
+  def draw(grid: Array[Array[CellState]], ships: Array[Ship] = Array.empty): Unit = {
     fg.clear()
     fg.drawString(caseSize * 6, caseSize / 2, title, halign = SwingConstants.CENTER, fontSize = caseSize / 2)
     for (y <- grid.indices) {
@@ -38,9 +38,6 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
             fg.setColor(Color.blue)
           case Hit =>
             fg.setColor(Color.red)
-          case Ship =>
-            if (showShip) fg.setColor(Color.green)
-            else fg.setColor(Color.white)
           case _ =>
             fg.setColor(Color.white)
         }
@@ -50,6 +47,12 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
         fg.drawLine((x + 1) * caseSize, (y + 1) * caseSize, (x + 2) * caseSize, (y + 1) * caseSize)
         fg.drawLine((x + 2) * caseSize, (y + 1) * caseSize, (x + 2) * caseSize, (y + 2) * caseSize)
         fg.drawLine((x + 1) * caseSize, (y + 2) * caseSize, (x + 2) * caseSize, (y + 2) * caseSize)
+      }
+    }
+    for (ship <- ships){
+      for (loc <- ship.locations){
+        fg.setColor(Color.green)
+        fg.drawFillRect((loc(0) + 1) * caseSize, (loc(1) + 1) * caseSize, caseSize, caseSize)
       }
     }
   }
