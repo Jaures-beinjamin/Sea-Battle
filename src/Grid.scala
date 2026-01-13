@@ -50,7 +50,7 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
       }
     }
     for (ship <- ships){
-      for (loc <- ship.locations){
+      for (loc <- ship.getLocations){
         fg.setColor(Color.green)
         fg.drawFillRect((loc(0) + 1) * caseSize, (loc(1) + 1) * caseSize, caseSize, caseSize)
       }

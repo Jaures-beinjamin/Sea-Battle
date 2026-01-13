@@ -4,7 +4,6 @@ sealed trait CellState
 case object Empty extends CellState
 case object Miss extends CellState
 case object Hit extends CellState
-case object Ship_old extends CellState
 
 sealed trait GamePhase
 case object ShipPlacement extends GamePhase
@@ -39,6 +38,31 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
     println(s"Player ${playerTurn + 1} place ship, size = ${shipSize(0)}")
   }
 
+  private def shot(numPlayer: Int, x: Int, y: Int): Unit = {
+    var hitSomething = false
+    for (ship <- ships(numPlayer)) {
+      val hit = ship.shot(x, y)
+      if (hit) {
+        hitSomething = true
+        boards(numPlayer)(y)(x) = Hit
+        if (ship.isSunk) println(s"Hit at $x, $y and SUNK!")
+        else println(s"Hit at $x, $y")
+      } else {
+        boards(numPlayer)(y)(x) = Miss
+      }
+    }
+    if (!hitSomething) {
+      println(s"Miss at ($x, $y)")
+    }
+  }
+
+  private def isAlive(numPlayer: Int): Boolean = {
+    for (ship <- ships(numPlayer)) {
+      if (!ship.isSunk) return true
+    }
+    false
+  }
+
   def onPress(boardNumber: Int, x: Int, y: Int): Unit = {
     phase match {
       case ShipPlacement =>
@@ -49,19 +73,9 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
       case Battle =>
         if (boardNumber != playerTurn) {
           println(s"Shot on Player ${boardNumber + 1} $x, $y")
-          if (boards(boardNumber)(y)(x) == Ship_old) {
-            boards(boardNumber)(y)(x) = Hit
-            println("Hit")
-          } else if (boards(boardNumber)(y)(x) == Empty) {
-            boards(boardNumber)(y)(x) = Miss
-            println("Miss")
-          }
-          else {
-            println("Already shot here, try again")
-            return
-          }
+          shot(boardNumber, x, y)
 
-          val isStillAlive = boards(boardNumber).exists(row => row.contains(Ship_old))
+          val isStillAlive = isAlive(boardNumber)
           if (!isStillAlive) {
             println(s"Player ${boardNumber + 1} is eliminated!")
             grids(boardNumber).eliminated()
@@ -72,7 +86,7 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
           var numPlayerAlive = 0
           var lastPlayerAlive = -1
           for (i <- 0 until numPlayers) {
-            if (boards(i).exists(row => row.contains(Ship_old))) {
+            if (isAlive(i)) {
               numPlayerAlive += 1
               lastPlayerAlive = i
             }
@@ -84,10 +98,9 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
             println(s"Player ${lastPlayerAlive + 1} is the winner!!!")
             println(s"Click on a grid to play again")
           } else {
-            playerTurn = (playerTurn + 1) % numPlayers
-            while (!boards(playerTurn).exists(row => row.contains(Ship_old))) {
+            do {
               playerTurn = (playerTurn + 1) % numPlayers
-            }
+            } while (!isAlive(playerTurn))
             println(s"Player ${playerTurn + 1} can shoot")
           }
         } else {
