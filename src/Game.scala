@@ -4,6 +4,7 @@ sealed trait CellState
 case object Empty extends CellState
 case object Miss extends CellState
 case object Hit extends CellState
+case object Sink extends CellState
 
 sealed trait GamePhase
 case object ShipPlacement extends GamePhase
@@ -45,14 +46,18 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
       if (hit) {
         hitSomething = true
         boards(numPlayer)(y)(x) = Hit
-        if (ship.isSunk) println(s"Hit at $x, $y and SUNK!")
+        if (ship.isSunk) {
+          println(s"Hit at $x, $y and SUNK!")
+          for (loc <- ship.getLocations){
+            boards(numPlayer)(loc(1))(loc(0)) = Sink
+          }
+        }
         else println(s"Hit at $x, $y")
-      } else {
-        boards(numPlayer)(y)(x) = Miss
       }
     }
     if (!hitSomething) {
       println(s"Miss at ($x, $y)")
+      boards(numPlayer)(y)(x) = Miss
     }
   }
 

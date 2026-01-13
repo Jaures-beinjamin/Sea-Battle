@@ -37,6 +37,8 @@ class Grid(title: String, caseSize: Int = 100, onPress: (Int, Int) => Unit, onRe
           case Miss =>
             fg.setColor(Color.blue)
           case Hit =>
+            fg.setColor(Color.pink)
+          case Sink =>
             fg.setColor(Color.red)
           case _ =>
             fg.setColor(Color.white)
