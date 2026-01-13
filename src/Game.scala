@@ -77,6 +77,11 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
         }
       case Battle =>
         if (boardNumber != playerTurn) {
+          if (boards(boardNumber)(y)(x) != Empty) {
+            println(s"You already shot at $x, $y! Try another cell.")
+            return
+          }
+
           println(s"Shot on Player ${boardNumber + 1} $x, $y")
           shot(boardNumber, x, y)
 
