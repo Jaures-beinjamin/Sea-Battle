@@ -15,7 +15,7 @@ case object GameOver extends GamePhase
 class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1, 2, 3)) {
   private val boards: Array[Array[Array[CellState]]] = Array.fill(numPlayers)(Array.fill(10, 10)(Empty))
   private val grids = new Array[Grid](numPlayers)
-  private val ships: Array[ArrayBuffer[Ship]] = Array.fill(numPlayers)(ArrayBuffer.empty)
+  private var ships: Array[ArrayBuffer[Ship]] = Array.fill(numPlayers)(ArrayBuffer.empty)
   for (i <- 0 until numPlayers) {
     println(s"Grid for Player ${i + 1} created")
     grids(i) = new Grid(s"Player ${i + 1}", caseSize, (x, y) => onPress(i, x, y), (x, y) => onRelease(i, x, y))
@@ -35,6 +35,7 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
       boards(i) = Array.fill(10, 10)(Empty)
       grids(i).draw(boards(i))
     }
+    ships = Array.fill(numPlayers)(ArrayBuffer.empty)
     phase = ShipPlacement
     playerTurn = 0
     println(s"Player ${playerTurn + 1} place ship, size = ${shipSize(0)}")
@@ -148,7 +149,7 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
       if (shipPlaced == shipSize.length) {
         shipPlaced = 0
         phase = Waiting
-        println(s"Click to hide ships and")
+        println(s"Click to hide ships")
       } else {
         println(s"Next ship, size = ${shipSize(shipPlaced)}")
       }
