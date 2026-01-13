@@ -8,6 +8,7 @@ case object Sink extends CellState
 
 sealed trait GamePhase
 case object ShipPlacement extends GamePhase
+case object Waiting extends GamePhase
 case object Battle extends GamePhase
 case object GameOver extends GamePhase
 
@@ -75,6 +76,17 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
           startX = x
           startY = y
         }
+      case Waiting =>
+        if (playerTurn == numPlayers - 1) {
+          phase = Battle
+          playerTurn = 0
+          println(s"Player ${playerTurn + 1} can shoot")
+        } else {
+          phase = ShipPlacement
+          playerTurn += 1
+          println(s"Player ${playerTurn + 1} place ships, size = ${shipSize(0)}")
+        }
+        grids(boardNumber).draw(boards(boardNumber))
       case Battle =>
         if (boardNumber != playerTurn) {
           if (boards(boardNumber)(y)(x) != Empty) {
@@ -134,16 +146,9 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
       shipPlaced += 1
       grids(boardNumber).draw(boards(boardNumber), ships(playerTurn).toArray)
       if (shipPlaced == shipSize.length) {
-        grids(boardNumber).draw(boards(boardNumber))
         shipPlaced = 0
-        if (playerTurn == numPlayers - 1) phase = Battle
-        if (playerTurn == numPlayers - 1) {
-          playerTurn = 0
-          println(s"Player ${playerTurn + 1} can shoot")
-        } else {
-          playerTurn += 1
-          println(s"Player ${playerTurn + 1} place ships, size = ${shipSize(0)}")
-        }
+        phase = Waiting
+        println(s"Click to hide ships and")
       } else {
         println(s"Next ship, size = ${shipSize(shipPlaced)}")
       }
