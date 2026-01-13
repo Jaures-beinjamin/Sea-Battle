@@ -50,7 +50,7 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
         boards(numPlayer)(y)(x) = Hit
         if (ship.isSunk) {
           println(s"Hit at $x, $y and SUNK!")
-          for (loc <- ship.getLocations){
+          for (loc <- ship.getLocations) {
             boards(numPlayer)(loc(1))(loc(0)) = Sink
           }
         }
@@ -87,7 +87,9 @@ class Game(numPlayers: Int, caseSize: Int = 100, shipSize: Array[Int] = Array(1,
           playerTurn += 1
           println(s"Player ${playerTurn + 1} place ships, size = ${shipSize(0)}")
         }
-        grids(boardNumber).draw(boards(boardNumber))
+        for (grid <- grids) {
+          grid.draw(boards(boardNumber))
+        }
       case Battle =>
         if (boardNumber != playerTurn) {
           if (boards(boardNumber)(y)(x) != Empty) {
