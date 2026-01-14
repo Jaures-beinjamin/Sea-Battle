@@ -16,6 +16,8 @@ Pour placer un bateau, il faut cliquer et glisser dans la direction dans laquell
 
 Les bateaux placés seront en vert ; une fois tous les bateaux placés, cliquez une fois sur la grille pour cacher les bateaux et passer au joueur suivant.
 
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/e9cc195b-0512-4027-8ad9-df7600bde5ae" />
+
 #### Bataille
 
 Une fois que le dernier joueur a placé ses bateaux et a cliqué pour les cacher, la phase de bataille commence.
@@ -28,6 +30,8 @@ Une fois qu'il a tiré, il y a 3 possibilités selon la couleur de la case :
 3. Rouge, il a touché et coulé un bateau
 
 Le joueur suivant peut ensuite jouer.
+
+<img width="500" height="1374" alt="image" src="https://github.com/user-attachments/assets/43147d54-134d-491c-8c00-3d22d356da29" />
 
 #### Fin du jeu
 
