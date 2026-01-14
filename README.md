@@ -39,3 +39,11 @@ Quand un joueur voit tous ses bateaux coulés, il est éliminé et son écran de
 La partie se termine quand il ne reste qu'un seul joueur en vie ; il devient alors le gagnant et son écran devient entièrement vert.
 
 Pour recommencer une nouvelle partie, il suffit de cliquer sur un écran.
+
+## Code
+
+### Class
+
+1. Game, c'est la classe principale qui gère toute la logique du jeu.
+2. Grid, c'est la classe qui gère l'affichage de la partie en cours
+3. Ship, c'est la classe qui gère l'emplacement et le status des bateaux
