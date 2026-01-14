@@ -42,8 +42,9 @@ Pour recommencer une nouvelle partie, il suffit de cliquer sur un écran.
 
 ## Code
 
-### Class
+### Structure
 
 1. Game, c'est la classe principale qui gère toute la logique du jeu.
 2. Grid, c'est la classe qui gère l'affichage de la partie en cours
-3. Ship, c'est la classe qui gère l'emplacement et le status des bateaux
+3. Ship, c'est la classe qui gère l'emplacement et le statut des bateaux
+4. Main, Permet de lancer la partie avec les paramètres souhaités en créant une nouvelle instance de Game.
